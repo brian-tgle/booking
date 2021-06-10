@@ -125,7 +125,7 @@ const BookingForm = () => {
       proposedDate3: '',
       location: ''
     },
-    onSubmit: async (data) => {
+    onSubmit: async (data, { resetForm }) => {
       const proposedDateOptions = [data.proposedDate1, data.proposedDate2, data.proposedDate3];
       const payload = {
         eventCategory: data.eventCategory,
@@ -134,6 +134,7 @@ const BookingForm = () => {
       };
       BookingRepository.create(payload).then((response) => {
         console.log(response.data);
+        resetForm();
       }).catch((error) => {
         console.log(error);
       });
