@@ -9,7 +9,7 @@ import {
   Col,
   Form,
   OverlayTrigger,
-  Tooltip,
+  Tooltip
 } from 'react-bootstrap';
 
 function Dashboard() {

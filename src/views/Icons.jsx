@@ -3,7 +3,7 @@ import {
   Card,
   Container,
   Row,
-  Col,
+  Col
 } from 'react-bootstrap';
 
 function Icons() {

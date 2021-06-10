@@ -7,7 +7,7 @@ import {
   Modal,
   Container,
   Row,
-  Col,
+  Col
 } from 'react-bootstrap';
 
 function Notifications() {
@@ -52,7 +52,7 @@ function Notifications() {
       ),
       type,
       icon: 'nc-icon nc-bell-55',
-      autoDismiss: 7,
+      autoDismiss: 7
     };
     notificationAlertRef.current.notificationAlert(options);
   };
