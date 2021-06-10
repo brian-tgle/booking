@@ -6,7 +6,7 @@ import {
   Table,
   Container,
   Row,
-  Col,
+  Col
 } from 'react-bootstrap';
 
 function TableList() {

@@ -8,7 +8,7 @@ import {
   Form,
   Container,
   Row,
-  Col,
+  Col
 } from 'react-bootstrap';
 import CardImg from 'assets/img/bg.jpeg';
 import Avatar from 'assets/img/faces/face-3.jpg';

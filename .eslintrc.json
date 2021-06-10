@@ -26,6 +26,11 @@
 	],
 	"rules": {
 		"react/prop-types": "off",
-		"react/jsx-props-no-spreading": "off"
+		"react/jsx-props-no-spreading": "off",
+		"comma-dangle": [
+			"error",
+			"never"
+		],
+		"import/no-cycle": "off"
 	}
 }
