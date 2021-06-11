@@ -7,33 +7,40 @@ import ProposedDate from 'components/Booking/ProposedDate/ProposedDate';
 import BookingRepository from 'services/bookingRepository';
 import useAuthentication from 'stores/authentication/authentication';
 import useBookingStore from 'stores/booking/booking';
-import { ACTION_TYPES, USER_ROLES } from 'common/constants';
+import { ACTION_TYPES, USER_ROLES, PAGINATION } from 'common/constants';
+import CustomPagination from 'components/Booking/List/Pagination';
 import Loading from 'components/Loading/Loading';
-import CreateBookingForm from './Form/Create';
-import RejectBookingForm from './Form/Reject';
-import BookingAction from './Action';
-import BookingModal from './Modal';
-import CancelBookingForm from './Form/Cancel';
-import ApproveBookingForm from './Form/Approve';
-import styles from './Booking.module.scss';
+import ModalForm from '../Modal/ModalForm';
+import BookingAction from '../Action';
+import BookingModal from '../Modal/Modal';
+import styles from '../Booking.module.scss';
+import TableHead from './TableHead';
 
 const BookingList = () => {
   const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    currentPage: PAGINATION.DEFAULT_PAGE, totalPages: 0
+  });
   const [bookingList, setBookingList] = useState([]);
   const [modalConfig, setModalConfig] = useState({});
   const [authenticationState] = useAuthentication();
   const [bookingState, bookingActions] = useBookingStore();
 
-  const fetchData = (callback = () => {}) => {
+  const fetchData = (callback = () => {}, page = 1) => {
     setLoading(true);
-    BookingRepository.getAll(1, 20).then((response) => {
+    BookingRepository.getAll(page, PAGINATION.PAGE_SIZE).then((response) => {
       setBookingList(response.data);
+      setPagination((prevState) => ({ ...prevState, totalPages: response.totalPages }));
       callback();
     }).catch(() => {
       setBookingList([]);
     }).finally(() => {
       setLoading(false);
     });
+  };
+
+  const handleChangePage = (currentPage) => {
+    setPagination((prevState) => ({ ...prevState, currentPage }));
   };
 
   useEffect(() => {
@@ -57,29 +64,16 @@ const BookingList = () => {
 
   useEffect(() => {
     if (bookingState.needRefresh) {
+      if (pagination.currentPage !== PAGINATION.DEFAULT_PAGE) {
+        handleChangePage(1);
+      }
       fetchData(bookingActions.setRefresh(false));
     }
   }, [bookingState.needRefresh]);
 
-  const renderModalForm = (type) => {
-    switch (type) {
-      case ACTION_TYPES.CREATE:
-        return <CreateBookingForm />;
-      case ACTION_TYPES.REJECT:
-        return <RejectBookingForm bookingId={bookingState.bookingData?.bookingId} />;
-      case ACTION_TYPES.CANCEL:
-        return <CancelBookingForm bookingId={bookingState.bookingData?.bookingId} />;
-      case ACTION_TYPES.APPROVE:
-        return (
-          <ApproveBookingForm
-            bookingId={bookingState.bookingData?.bookingId}
-            proposedDateOptions={bookingState.bookingData?.proposedDateOptions}
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
+  useEffect(() => {
+    fetchData(() => {}, pagination.currentPage);
+  }, [pagination.currentPage]);
 
   const handleCreate = () => {
     setModalConfig({ title: 'Create a new booking', size: 'xl' });
@@ -108,46 +102,44 @@ const BookingList = () => {
         </Card.Header>
         <Card.Body className="table-full-width table-responsive px-0">
           {loading ? <Loading /> : (
-            <Table className="table-hover table-striped">
-              <thead>
-                <tr>
-                  <th className="border-0">#</th>
-                  <th className="border-0">Type of event</th>
-                  <th className="border-0 text-center">Location</th>
-                  <th className="border-0 text-center">Proposed Date</th>
-                  <th className="border-0">Status</th>
-                  <th className="border-0 text-center">-</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookingList?.map((booking, index) => (
-                  <tr key={booking?.id}>
-                    <td className={styles.index}>{index + 1}</td>
-                    <td className={styles.eventCategory}>
-                      <Badge variant="info">{booking?.eventCategory?.name}</Badge>
-                    </td>
-                    <td className={styles.locationColumn}><b>{booking?.location}</b></td>
-                    <td>
-                      <ProposedDate
-                        proposedDate={booking?.proposedDate}
-                        options={booking?.proposedDateOptions || []}
-                      />
-                    </td>
-                    <td>
-                      <Status type={booking?.status} />
-                    </td>
-                    <td>
-                      <BookingAction
-                        status={booking?.status}
-                        bookingId={booking?.id}
-                        proposedDateOptions={booking?.proposedDateOptions || []}
-                        rejectionReason={booking?.rejectionReason}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <>
+              <Table className="table-hover table-striped">
+                <TableHead />
+                <tbody>
+                  {bookingList?.map((booking, index) => (
+                    <tr key={booking?.id}>
+                      <td className={styles.index}>{index + 1}</td>
+                      <td className={styles.eventCategory}>
+                        <Badge variant="info">{booking?.eventCategory?.name}</Badge>
+                      </td>
+                      <td className={styles.locationColumn}><b>{booking?.location}</b></td>
+                      <td>
+                        <ProposedDate
+                          proposedDate={booking?.proposedDate}
+                          options={booking?.proposedDateOptions || []}
+                        />
+                      </td>
+                      <td>
+                        <Status type={booking?.status} />
+                      </td>
+                      <td>
+                        <BookingAction
+                          status={booking?.status}
+                          bookingId={booking?.id}
+                          proposedDateOptions={booking?.proposedDateOptions || []}
+                          rejectionReason={booking?.rejectionReason}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <CustomPagination
+                totalPages={pagination.totalPages}
+                currentPage={pagination.currentPage}
+                handleChangePage={handleChangePage}
+              />
+            </>
           )}
         </Card.Body>
       </Card>
@@ -156,7 +148,7 @@ const BookingList = () => {
         size={modalConfig?.size || 'md'}
         show={bookingState.showModal}
       >
-        {renderModalForm(bookingState.bookingData?.type)}
+        <ModalForm />
       </BookingModal>
     </>
   );
