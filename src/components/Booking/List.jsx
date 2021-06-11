@@ -35,7 +35,7 @@ const BookingList = () => {
 
   useEffect(() => {
     if (bookingState.bookingData?.type === ACTION_TYPES.REJECT) {
-      setModalConfig({ title: 'Reject booking', size: 'sm' });
+      setModalConfig({ title: 'Reject booking', size: 'md' });
       bookingActions.setShowModal(true);
     }
   }, [bookingState.bookingData]);
