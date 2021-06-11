@@ -1,19 +1,18 @@
-import Dashboard from 'views/Dashboard';
-import Icons from 'views/Icons';
+import { lazy } from 'react';
 
 const dashboardRoutes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
     icon: 'nc-icon nc-chart-pie-35',
-    component: Dashboard,
+    component: lazy(() => import('views/Dashboard')),
     layout: '/admin'
   },
   {
-    path: '/icons',
-    name: 'Icons',
+    path: '/type-of-event',
+    name: 'Type of Event',
     icon: 'nc-icon nc-bullet-list-67',
-    component: Icons,
+    component: lazy(() => import('views/TypeOfEvent')),
     layout: '/admin'
   }
 ];
