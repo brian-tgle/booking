@@ -5,7 +5,7 @@ import { STATUS, USER_ROLES, ACTION_TYPES } from 'common/constants';
 import useBookingStore from 'stores/booking/booking';
 import styles from './Booking.module.scss';
 
-const BookingAction = ({ status, bookingId }) => {
+const BookingAction = ({ status, bookingId, proposedDateOptions = [] }) => {
   const [authenticationState] = useAuthentication();
   const [, bookingActions] = useBookingStore();
 
@@ -24,7 +24,11 @@ const BookingAction = ({ status, bookingId }) => {
   };
 
   const handleApprove = () => {
-
+    bookingActions.setBookingData({
+      type: ACTION_TYPES.APPROVE,
+      bookingId,
+      proposedDateOptions
+    });
   };
 
   if (status === STATUS.PENDING_REVIEW) {

@@ -35,6 +35,7 @@ const RejectBookingForm = ({ bookingId }) => {
   });
   const handleCancel = () => {
     bookingActions.setShowModal(false);
+    bookingActions.setBookingData({});
   };
 
   return (
@@ -48,12 +49,12 @@ const RejectBookingForm = ({ bookingId }) => {
           as="textarea"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.rejectionReason}
-          isInvalid={touched.rejectionReason && errors.rejectionReason}
+          value={values?.rejectionReason}
+          isInvalid={touched?.rejectionReason && errors?.rejectionReason}
         />
-        {touched.rejectionReason && errors.rejectionReason && (
+        {touched?.rejectionReason && errors?.rejectionReason && (
         <Form.Control.Feedback className={styles.inValid} type="invalid">
-          {errors.rejectionReason}
+          {errors?.rejectionReason}
         </Form.Control.Feedback>
         )}
       </Form.Group>

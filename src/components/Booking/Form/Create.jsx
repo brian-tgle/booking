@@ -59,6 +59,7 @@ const CreateBookingForm = () => {
 
   const handleCancel = () => {
     bookingActions.setShowModal(false);
+    bookingActions.setBookingData({});
   };
 
   return (
@@ -72,17 +73,17 @@ const CreateBookingForm = () => {
               name="eventCategory"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.eventCategory}
-              isInvalid={touched.eventCategory && errors.eventCategory}
+              value={values?.eventCategory}
+              isInvalid={touched?.eventCategory && errors?.eventCategory}
             >
               <option>Choose type of event</option>
-              {eventCategories.map((category) => (
-                <option key={category.id} value={category.id}>{category.name}</option>
+              {eventCategories?.map((category) => (
+                <option key={category?.id} value={category?.id}>{category?.name}</option>
               ))}
             </Form.Control>
-            {touched.eventCategory && errors.eventCategory && (
+            {touched?.eventCategory && errors?.eventCategory && (
             <Form.Control.Feedback className={styles.inValid} type="invalid">
-              {errors.eventCategory}
+              {errors?.eventCategory}
             </Form.Control.Feedback>
             )}
           </Form.Group>
@@ -95,12 +96,12 @@ const CreateBookingForm = () => {
               type="datetime-local"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.proposedDate1}
-              isInvalid={touched.proposedDate1 && errors.proposedDate1}
+              value={values?.proposedDate1}
+              isInvalid={touched?.proposedDate1 && errors?.proposedDate1}
             />
-            {touched.proposedDate1 && errors.proposedDate1 && (
+            {touched?.proposedDate1 && errors?.proposedDate1 && (
             <Form.Control.Feedback className={styles.inValid} type="invalid">
-              {errors.proposedDate1}
+              {errors?.proposedDate1}
             </Form.Control.Feedback>
             )}
           </Form.Group>
@@ -113,12 +114,12 @@ const CreateBookingForm = () => {
               type="datetime-local"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.proposedDate2}
-              isInvalid={touched.proposedDate2 && errors.proposedDate2}
+              value={values?.proposedDate2}
+              isInvalid={touched?.proposedDate2 && errors?.proposedDate2}
             />
-            {touched.proposedDate2 && errors.proposedDate2 && (
+            {touched?.proposedDate2 && errors?.proposedDate2 && (
             <Form.Control.Feedback className={styles.inValid} type="invalid">
-              {errors.proposedDate2}
+              {errors?.proposedDate2}
             </Form.Control.Feedback>
             )}
           </Form.Group>
@@ -131,12 +132,12 @@ const CreateBookingForm = () => {
               type="datetime-local"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.proposedDate3}
-              isInvalid={touched.proposedDate3 && errors.proposedDate3}
+              value={values?.proposedDate3}
+              isInvalid={touched?.proposedDate3 && errors?.proposedDate3}
             />
-            {touched.proposedDate3 && errors.proposedDate3 && (
+            {touched?.proposedDate3 && errors?.proposedDate3 && (
             <Form.Control.Feedback className={styles.inValid} type="invalid">
-              {errors.proposedDate3}
+              {errors?.proposedDate3}
             </Form.Control.Feedback>
             )}
           </Form.Group>
@@ -153,12 +154,12 @@ const CreateBookingForm = () => {
               as="textarea"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.location}
-              isInvalid={touched.location && errors.location}
+              value={values?.location}
+              isInvalid={touched?.location && errors?.location}
             />
-            {touched.location && errors.location && (
+            {touched?.location && errors?.location && (
             <Form.Control.Feedback className={styles.inValid} type="invalid">
-              {errors.location}
+              {errors?.location}
             </Form.Control.Feedback>
             )}
           </Form.Group>

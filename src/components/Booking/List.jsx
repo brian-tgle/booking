@@ -13,8 +13,9 @@ import CreateBookingForm from './Form/Create';
 import RejectBookingForm from './Form/Reject';
 import BookingAction from './Action';
 import BookingModal from './Modal';
-import styles from './Booking.module.scss';
 import CancelBookingForm from './Form/Cancel';
+import ApproveBookingForm from './Form/Approve';
+import styles from './Booking.module.scss';
 
 const BookingList = () => {
   const [loading, setLoading] = useState(false);
@@ -41,11 +42,15 @@ const BookingList = () => {
 
   useEffect(() => {
     if (bookingState.bookingData?.type === ACTION_TYPES.REJECT) {
-      setModalConfig({ title: 'Reject booking', size: 'md' });
+      setModalConfig({ title: 'Reject booking' });
       bookingActions.setShowModal(true);
     }
     if (bookingState.bookingData?.type === ACTION_TYPES.CANCEL) {
-      setModalConfig({ title: 'Cancel booking', size: 'md' });
+      setModalConfig({ title: 'Cancel booking' });
+      bookingActions.setShowModal(true);
+    }
+    if (bookingState.bookingData?.type === ACTION_TYPES.APPROVE) {
+      setModalConfig({ title: 'Approve booking' });
       bookingActions.setShowModal(true);
     }
   }, [bookingState.bookingData]);
@@ -64,6 +69,13 @@ const BookingList = () => {
         return <RejectBookingForm bookingId={bookingState.bookingData?.bookingId} />;
       case ACTION_TYPES.CANCEL:
         return <CancelBookingForm bookingId={bookingState.bookingData?.bookingId} />;
+      case ACTION_TYPES.APPROVE:
+        return (
+          <ApproveBookingForm
+            bookingId={bookingState.bookingData?.bookingId}
+            proposedDateOptions={bookingState.bookingData?.proposedDateOptions}
+          />
+        );
       default:
         return <></>;
     }
@@ -108,7 +120,7 @@ const BookingList = () => {
                 </tr>
               </thead>
               <tbody>
-                {bookingList.map((booking, index) => (
+                {bookingList?.map((booking, index) => (
                   <tr key={booking?.id}>
                     <td className={styles.index}>{index + 1}</td>
                     <td className={styles.eventCategory}>
@@ -130,7 +142,13 @@ const BookingList = () => {
                           {`Reason: ${booking?.rejectionReason}`}
                         </i>
                       )
-                        : <BookingAction status={booking?.status} bookingId={booking?.id} />}
+                        : (
+                          <BookingAction
+                            status={booking?.status}
+                            bookingId={booking?.id}
+                            proposedDateOptions={booking?.proposedDateOptions || []}
+                          />
+                        )}
                     </td>
                   </tr>
                 ))}
@@ -141,7 +159,7 @@ const BookingList = () => {
       </Card>
       <BookingModal
         title={modalConfig?.title}
-        size={modalConfig?.size}
+        size={modalConfig?.size || 'md'}
         show={bookingState.showModal}
       >
         {renderModalForm(bookingState.bookingData?.type)}

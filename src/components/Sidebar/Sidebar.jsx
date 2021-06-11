@@ -1,7 +1,8 @@
 import React from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
+import { useLocation, NavLink, Link } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import Logo from 'assets/img/reactlogo.png';
+import { ROUTES } from 'common/constants';
 
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
@@ -16,8 +17,8 @@ function Sidebar({ color, image, routes }) {
       />
       <div className="sidebar-wrapper">
         <div className="logo d-flex align-items-center justify-content-start">
-          <a
-            href="https://www.creative-tim.com?ref=lbd-sidebar"
+          <Link
+            to={ROUTES.DASHBOARD}
             className="simple-text logo-mini mx-1"
           >
             <div className="logo-img">
@@ -26,10 +27,10 @@ function Sidebar({ color, image, routes }) {
                 alt="..."
               />
             </div>
-          </a>
-          <a className="simple-text" href="http://www.creative-tim.com">
+          </Link>
+          <Link className="simple-text" to={ROUTES.DASHBOARD}>
             Booking Portal
-          </a>
+          </Link>
         </div>
         <Nav>
           {routes.map((prop) => {

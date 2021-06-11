@@ -9,6 +9,7 @@ const CancelBookingForm = ({ bookingId }) => {
   const [, bookingActions] = useBookingStore();
   const handleCancel = () => {
     bookingActions.setShowModal(false);
+    bookingActions.setBookingData({});
   };
   const handleSubmit = () => {
     BookingRepository.cancel(bookingId).then(() => {

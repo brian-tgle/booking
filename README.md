@@ -3,7 +3,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Demo
-
+![Screenshot](https://user-images.githubusercontent.com/84697800/121468641-5b37a800-c9e5-11eb-9923-59768553fb2b.png)
+![Screenshot](https://user-images.githubusercontent.com/84697800/121536802-95c53300-ca2d-11eb-931a-a3e571b51960.png)
+![Screenshot](https://user-images.githubusercontent.com/84697800/121651335-b4c2d400-cac4-11eb-8476-7c9880b6d5e1.png)
+![Screenshot](https://user-images.githubusercontent.com/84697800/121658528-9ca28300-cacb-11eb-9b5e-9dc21b0512a9.png)
 ## Feature
 - Authentication
 - Booking management
@@ -34,7 +37,16 @@ $ npm install
 $ node server
 ```
 Server live on: http://localhost:5000/
-Exposed API:
+
+Dummy accounts: 
+
+##### Admin:
+```admin / 12345678```
+##### Company:
+```company1 / 12345678```
+```company2 / 12345678```
+
+##### Exposed API:
 ```bash
 POST: /auth/login            Login
 ```
