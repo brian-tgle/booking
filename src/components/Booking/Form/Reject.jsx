@@ -22,7 +22,7 @@ const RejectBookingForm = ({ bookingId }) => {
     initialValues: {
       rejectionReason: ''
     },
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       BookingRepository.update(bookingId, STATUS.REJECTED, data).then(() => {
         bookingActions.setShowModal(false);
         bookingActions.setBookingData({});

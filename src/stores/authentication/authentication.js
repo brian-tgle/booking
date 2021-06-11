@@ -23,7 +23,7 @@ export const actions = {
   setUserProfile: (user) => ({ setState }) => {
     setState({ user });
   },
-  login: (values) => async ({ setState }) => {
+  login: (values) => ({ setState }) => {
     // Attach token in axios header
     setAuthToken(values.token);
     setState({

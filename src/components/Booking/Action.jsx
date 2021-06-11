@@ -5,7 +5,12 @@ import { STATUS, USER_ROLES, ACTION_TYPES } from 'common/constants';
 import useBookingStore from 'stores/booking/booking';
 import styles from './Booking.module.scss';
 
-const BookingAction = ({ status, bookingId, proposedDateOptions = [] }) => {
+const BookingAction = ({
+  status,
+  bookingId,
+  proposedDateOptions = [],
+  rejectionReason = ''
+}) => {
   const [authenticationState] = useAuthentication();
   const [, bookingActions] = useBookingStore();
 
@@ -53,6 +58,10 @@ const BookingAction = ({ status, bookingId, proposedDateOptions = [] }) => {
         </>
       );
     }
+  } else if (status === STATUS.REJECTED) {
+    return (
+      <i className={styles.rejectionReason}>{`Reason: ${rejectionReason}`}</i>
+    );
   }
   return <></>;
 };

@@ -25,21 +25,23 @@ const Login = () => {
     handleSubmit,
     values,
     errors,
-    touched,
-    isSubmitting
+    touched
   } = useFormik({
     initialValues: {
       username: '',
       password: ''
     },
-    onSubmit: async (data) => {
-      try {
-        const response = await AuthRepository.login(data);
-        authenticationActions.login(response);
-        history.replace(ROUTES.DASHBOARD);
-      } catch {
+    onSubmit: (data) => {
+      AuthRepository.login(data).then((response) => {
+        if (response?.success) {
+          authenticationActions.login(response.data);
+          history.replace(ROUTES.DASHBOARD);
+        } else {
+          setServerError(true);
+        }
+      }).catch(() => {
         setServerError(true);
-      }
+      });
     },
     validationSchema: loginSchema
   });
@@ -56,12 +58,12 @@ const Login = () => {
             placeholder="Enter username"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.username}
-            isInvalid={touched.username && errors.username}
+            value={values?.username}
+            isInvalid={touched?.username && errors?.username}
           />
-          {touched.username && errors.username && (
+          {touched?.username && errors?.username && (
           <Form.Control.Feedback className={styles.inValid} type="invalid">
-            {errors.username}
+            {errors?.username}
           </Form.Control.Feedback>
           )}
         </Form.Group>
@@ -73,25 +75,25 @@ const Login = () => {
             placeholder="Password"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.password}
-            isInvalid={touched.password && errors.password}
+            value={values?.password}
+            isInvalid={touched?.password && errors?.password}
           />
-          {touched.password && errors.password && (
+          {touched?.password && errors?.password && (
           <Form.Control.Feedback className={styles.inValid} type="invalid">
-            {errors.password}
+            {errors?.password}
           </Form.Control.Feedback>
           )}
         </Form.Group>
         <p className="text-center">
           <Button
+            className="btn-fill"
             variant="success"
             type="submit"
-            disabled={isSubmitting}
           >
             Login
           </Button>
         </p>
-        {serverError && <p className="text-center">Service unavailable! Please try again</p>}
+        {serverError && <p className="text-center">Username or Password not correct! Please try again</p>}
       </Form>
     </div>
   );

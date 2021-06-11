@@ -7,7 +7,7 @@ import ProposedDate from 'components/Booking/ProposedDate/ProposedDate';
 import BookingRepository from 'services/bookingRepository';
 import useAuthentication from 'stores/authentication/authentication';
 import useBookingStore from 'stores/booking/booking';
-import { ACTION_TYPES, STATUS, USER_ROLES } from 'common/constants';
+import { ACTION_TYPES, USER_ROLES } from 'common/constants';
 import Loading from 'components/Loading/Loading';
 import CreateBookingForm from './Form/Create';
 import RejectBookingForm from './Form/Reject';
@@ -137,18 +137,12 @@ const BookingList = () => {
                       <Status type={booking?.status} />
                     </td>
                     <td>
-                      {booking?.status === STATUS.REJECTED ? (
-                        <i className={styles.rejectionReason}>
-                          {`Reason: ${booking?.rejectionReason}`}
-                        </i>
-                      )
-                        : (
-                          <BookingAction
-                            status={booking?.status}
-                            bookingId={booking?.id}
-                            proposedDateOptions={booking?.proposedDateOptions || []}
-                          />
-                        )}
+                      <BookingAction
+                        status={booking?.status}
+                        bookingId={booking?.id}
+                        proposedDateOptions={booking?.proposedDateOptions || []}
+                        rejectionReason={booking?.rejectionReason}
+                      />
                     </td>
                   </tr>
                 ))}
