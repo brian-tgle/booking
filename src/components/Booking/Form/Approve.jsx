@@ -22,7 +22,7 @@ const ApproveBookingForm = ({ bookingId, proposedDateOptions = [] }) => {
     initialValues: {
       proposedDate: ''
     },
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       BookingRepository.update(bookingId, STATUS.APPROVED, data).then(() => {
         bookingActions.setShowModal(false);
         bookingActions.setBookingData({});

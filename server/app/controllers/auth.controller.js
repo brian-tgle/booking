@@ -91,7 +91,7 @@ userController.post('/login', loginValidation, async (req, res) => {
         });
       const userToReturn = { ...user.toJSON(), ...{ token } };
       delete userToReturn.password;
-      res.status(200).json(userToReturn);
+      res.status(200).json({ data: userToReturn, success: true });
     } else {
       generateServerErrorCode(res, 403, 'login password error', WRONG_PASSWORD, 'password');
     }

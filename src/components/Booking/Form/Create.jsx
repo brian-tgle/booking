@@ -39,7 +39,7 @@ const CreateBookingForm = () => {
       proposedDate3: '',
       location: ''
     },
-    onSubmit: async (data) => {
+    onSubmit: (data) => {
       const proposedDateOptions = [data.proposedDate1, data.proposedDate2, data.proposedDate3];
       const payload = {
         eventCategory: data.eventCategory,
