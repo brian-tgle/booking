@@ -8,24 +8,30 @@ import BookingRepository from 'services/bookingRepository';
 import useAuthentication from 'stores/authentication/authentication';
 import useBookingStore from 'stores/booking/booking';
 import { ACTION_TYPES, STATUS, USER_ROLES } from 'common/constants';
+import Loading from 'components/Loading/Loading';
 import CreateBookingForm from './Form/Create';
 import RejectBookingForm from './Form/Reject';
 import BookingAction from './Action';
 import BookingModal from './Modal';
 import styles from './Booking.module.scss';
+import CancelBookingForm from './Form/Cancel';
 
 const BookingList = () => {
+  const [loading, setLoading] = useState(false);
   const [bookingList, setBookingList] = useState([]);
   const [modalConfig, setModalConfig] = useState({});
   const [authenticationState] = useAuthentication();
   const [bookingState, bookingActions] = useBookingStore();
 
   const fetchData = (callback = () => {}) => {
+    setLoading(true);
     BookingRepository.getAll(1, 20).then((response) => {
       setBookingList(response.data);
       callback();
     }).catch(() => {
       setBookingList([]);
+    }).finally(() => {
+      setLoading(false);
     });
   };
 
@@ -38,6 +44,10 @@ const BookingList = () => {
       setModalConfig({ title: 'Reject booking', size: 'md' });
       bookingActions.setShowModal(true);
     }
+    if (bookingState.bookingData?.type === ACTION_TYPES.CANCEL) {
+      setModalConfig({ title: 'Cancel booking', size: 'md' });
+      bookingActions.setShowModal(true);
+    }
   }, [bookingState.bookingData]);
 
   useEffect(() => {
@@ -48,10 +58,12 @@ const BookingList = () => {
 
   const renderModalForm = (type) => {
     switch (type) {
-      case ACTION_TYPES.REJECT:
-        return <RejectBookingForm bookingId={bookingState.bookingData?.bookingId} />;
       case ACTION_TYPES.CREATE:
         return <CreateBookingForm />;
+      case ACTION_TYPES.REJECT:
+        return <RejectBookingForm bookingId={bookingState.bookingData?.bookingId} />;
+      case ACTION_TYPES.CANCEL:
+        return <CancelBookingForm bookingId={bookingState.bookingData?.bookingId} />;
       default:
         return <></>;
     }
@@ -83,46 +95,48 @@ const BookingList = () => {
           </p>
         </Card.Header>
         <Card.Body className="table-full-width table-responsive px-0">
-          <Table className="table-hover table-striped">
-            <thead>
-              <tr>
-                <th className="border-0">#</th>
-                <th className="border-0">Type of event</th>
-                <th className="border-0 text-center">Location</th>
-                <th className="border-0 text-center">Proposed Date</th>
-                <th className="border-0">Status</th>
-                <th className="border-0 text-center">-</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookingList.map((booking, index) => (
-                <tr key={booking?.id}>
-                  <td className={styles.index}>{index + 1}</td>
-                  <td className={styles.eventCategory}>
-                    <Badge variant="info">{booking?.eventCategory?.name}</Badge>
-                  </td>
-                  <td className={styles.locationColumn}><b>{booking?.location}</b></td>
-                  <td>
-                    <ProposedDate
-                      proposedDate={booking?.proposedDate}
-                      options={booking?.proposedDateOptions || []}
-                    />
-                  </td>
-                  <td>
-                    <Status type={booking?.status} />
-                  </td>
-                  <td>
-                    {booking?.status === STATUS.REJECTED ? (
-                      <i className={styles.rejectionReason}>
-                        {`Reason: ${booking?.rejectionReason}`}
-                      </i>
-                    )
-                      : <BookingAction status={booking?.status} bookingId={booking?.id} />}
-                  </td>
+          {loading ? <Loading /> : (
+            <Table className="table-hover table-striped">
+              <thead>
+                <tr>
+                  <th className="border-0">#</th>
+                  <th className="border-0">Type of event</th>
+                  <th className="border-0 text-center">Location</th>
+                  <th className="border-0 text-center">Proposed Date</th>
+                  <th className="border-0">Status</th>
+                  <th className="border-0 text-center">-</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {bookingList.map((booking, index) => (
+                  <tr key={booking?.id}>
+                    <td className={styles.index}>{index + 1}</td>
+                    <td className={styles.eventCategory}>
+                      <Badge variant="info">{booking?.eventCategory?.name}</Badge>
+                    </td>
+                    <td className={styles.locationColumn}><b>{booking?.location}</b></td>
+                    <td>
+                      <ProposedDate
+                        proposedDate={booking?.proposedDate}
+                        options={booking?.proposedDateOptions || []}
+                      />
+                    </td>
+                    <td>
+                      <Status type={booking?.status} />
+                    </td>
+                    <td>
+                      {booking?.status === STATUS.REJECTED ? (
+                        <i className={styles.rejectionReason}>
+                          {`Reason: ${booking?.rejectionReason}`}
+                        </i>
+                      )
+                        : <BookingAction status={booking?.status} bookingId={booking?.id} />}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </Card.Body>
       </Card>
       <BookingModal
