@@ -22,7 +22,7 @@ const CancelBookingForm = ({ bookingId }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form as="div">
       <p>Do you want to cancel?</p>
       <div className={bookingStyles.formActions}>
         <Button
@@ -36,7 +36,7 @@ const CancelBookingForm = ({ bookingId }) => {
         <Button
           className="btn-fill"
           size="sm"
-          type="submit"
+          onClick={handleSubmit}
           variant="danger"
         >
           Yes

@@ -2,19 +2,17 @@ import React, { useEffect, useState } from 'react';
 import {
   Badge, Button, Card, Table
 } from 'react-bootstrap';
-import Status from 'components/Booking/Status/Status';
-import ProposedDate from 'components/Booking/ProposedDate/ProposedDate';
 import BookingRepository from 'services/bookingRepository';
 import useAuthentication from 'stores/authentication/authentication';
 import useBookingStore from 'stores/booking/booking';
 import { ACTION_TYPES, USER_ROLES, PAGINATION } from 'common/constants';
 import CustomPagination from 'components/Booking/List/Pagination';
 import Loading from 'components/Loading/Loading';
+import TableHead from './TableHead';
 import ModalForm from '../Modal/ModalForm';
-import BookingAction from '../Action';
 import BookingModal from '../Modal/Modal';
 import styles from '../Booking.module.scss';
-import TableHead from './TableHead';
+import BookingTableRow from './TableRow';
 
 const BookingList = () => {
   const [loading, setLoading] = useState(false);
@@ -107,30 +105,7 @@ const BookingList = () => {
                 <TableHead />
                 <tbody>
                   {bookingList?.map((booking, index) => (
-                    <tr key={booking?.id}>
-                      <td className={styles.index}>{index + 1}</td>
-                      <td className={styles.eventCategory}>
-                        <Badge variant="info">{booking?.eventCategory?.name}</Badge>
-                      </td>
-                      <td className={styles.locationColumn}><b>{booking?.location}</b></td>
-                      <td>
-                        <ProposedDate
-                          proposedDate={booking?.proposedDate}
-                          options={booking?.proposedDateOptions || []}
-                        />
-                      </td>
-                      <td>
-                        <Status type={booking?.status} />
-                      </td>
-                      <td>
-                        <BookingAction
-                          status={booking?.status}
-                          bookingId={booking?.id}
-                          proposedDateOptions={booking?.proposedDateOptions || []}
-                          rejectionReason={booking?.rejectionReason}
-                        />
-                      </td>
-                    </tr>
+                    <BookingTableRow booking={booking} index={index} />
                   ))}
                 </tbody>
               </Table>
