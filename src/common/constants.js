@@ -24,3 +24,8 @@ export const ACTION_TYPES = {
   REJECT: 'REJECT',
   CANCEL: 'CANCEL'
 };
+
+export const PAGINATION = {
+  DEFAULT_PAGE: 1,
+  PAGE_SIZE: 20
+};

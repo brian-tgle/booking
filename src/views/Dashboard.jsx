@@ -1,5 +1,5 @@
 import React from 'react';
-import BookingList from 'components/Booking/List';
+import BookingList from 'components/Booking/List/List';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function Dashboard() {

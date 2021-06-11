@@ -7,7 +7,7 @@ const BookingRepository = {
    * /GET. Get the list of booking
    * @return {Array} the list of booking
    */
-  getAll: (page, limt) => Repository.get(`${url}?page=${page}&limit=${limt}`),
+  getAll: (page, limt) => Repository.get(`${url}?page=${page}&size=${limt}`),
 
   create: (payload) => Repository.post(url, payload),
 
