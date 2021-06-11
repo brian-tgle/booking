@@ -35,7 +35,6 @@ bookingController.post('/', createBookingValidation, (req, res) => {
   try {
     const { eventCategory, location, proposedDateOptions } = req.body;
     const user = req.user;
-    console.log(user);
     const booking = new Booking({
       eventCategory,
       location,
@@ -55,7 +54,6 @@ bookingController.post('/', createBookingValidation, (req, res) => {
         });
       });
   } catch (e) {
-    console.log(e);
     generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
   }
 });
@@ -73,15 +71,14 @@ bookingController.put('/:action/:bookingId', updateBookingValidation, (req, res)
     const { bookingId, action } = req.params;
     const user = req.user;
     const updateData = {
-      ...(action === STATUS.REJECTED ? rejectionReason : {}),
+      ...(action === STATUS.REJECTED ? {rejectionReason} : {}),
       proposedDate,
       status: action,
       approvedBy: user.id
     };
-    console.log(bookingId, action, user.id);
     Booking.findOneAndUpdate(
       { _id: bookingId, status: STATUS.PENDING_REVIEW },
-      { $set: updateData, $unset: { "proposedDateOptions": 1 } },
+      { $set: updateData, $unset: action === STATUS.APPROVED ? { "proposedDateOptions": 1 } : {} },
       { new: true, useFindAndModify: false },
       (error, data) => {
         if (data) {
@@ -94,7 +91,6 @@ bookingController.put('/:action/:bookingId', updateBookingValidation, (req, res)
         }
       })
   } catch (e) {
-    console.log(e);
     generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
   }
 });

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const ProposedDate = ({ options = [], proposedDate, name = 'proposedDate' }) => (
+const ProposedDateOptions = ({ options = [], name = 'proposedDate' }) => (
   <>
-    {proposedDate ? <>{proposedDate}</> : options.map((option, index) => (
+    {options.map((option, index) => (
       <Form.Check
         key={option}
         type="radio"
@@ -15,4 +15,4 @@ const ProposedDate = ({ options = [], proposedDate, name = 'proposedDate' }) => 
   </>
 );
 
-export default ProposedDate;
+export default ProposedDateOptions;

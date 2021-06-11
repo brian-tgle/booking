@@ -64,7 +64,6 @@ userController.post('/register', registerValidation, async (req, res) => {
       generateServerErrorCode(res, 403, 'register username error', USER_EXISTS_ALREADY, 'username');
     }
   } catch (e) {
-    console.log(e);
     generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
   }
 });
@@ -105,7 +104,6 @@ userController.get(
   '/list',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    console.log(req.user);
     User.find({}, (err, result) => {
       res.status(200).json({
         data: result,

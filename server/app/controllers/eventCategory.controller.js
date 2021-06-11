@@ -25,7 +25,6 @@ eventTypeController.post('/', (req, res) => {
         });
       });
   } catch (e) {
-    console.log(e);
     generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
   }
 });

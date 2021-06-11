@@ -1,0 +1,29 @@
+.index {
+  width: 1%;
+}
+.eventCategory {
+  width: 15%;
+}
+
+.locationColumn {
+  width: 30%;
+}
+
+.adminAction {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.proposedDateOptions {
+  list-style: none;
+}
+
+.formActions, .bookingHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rejectionReason {
+  font-size: .8rem;
+}

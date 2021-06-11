@@ -79,6 +79,7 @@ export const updateBookingValidation = [
     .isIn([STATUS.APPROVED, STATUS.REJECTED])
     .withMessage(ACTION_NOT_ACCEPTABLE),
   check('proposedDate')
+    .if(param('action').equals(STATUS.APPROVED))
     .exists()
     .withMessage(EMPTY_DATE),
   check('rejectionReason')
