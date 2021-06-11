@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import styles from 'assets/scss/login.module.scss';
 import AuthRepository from 'services/authRepository';
 import useAuthentication from 'stores/authentication/authentication';
 import { ROUTES } from 'common/constants';
+import loginSchema from 'validationSchemas/login';
 
 const Login = () => {
   const [serverError, setServerError] = useState(false);
   const [state, authenticationActions] = useAuthentication();
   const history = useHistory();
-  const loginSchema = Yup.object().shape({
-    username: Yup.string().required('User name can not be empty'),
-    password: Yup.string().required('Password can not be empty')
-  });
 
   useEffect(() => {
     if (state.loggedIn) {

@@ -12,3 +12,15 @@ export const STATUS = {
   APPROVED: 'approved',
   REJECTED: 'rejected'
 };
+
+export const USER_ROLES = {
+  COMPANY: 'COMPANY',
+  ADMIN: 'ADMIN'
+};
+
+export const ACTION_TYPES = {
+  CREATE: 'CREATE',
+  APPROVE: 'APPROVE',
+  REJECT: 'REJECT',
+  ERROR: 'ERROR'
+};

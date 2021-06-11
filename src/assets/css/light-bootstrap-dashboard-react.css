@@ -1181,8 +1181,7 @@ body > .navbar-collapse {
   font-weight: 400;
   padding-bottom: 5px;
   border-top: none !important;
-  border-bottom: none;
-  text-align: left !important; }
+  border-bottom: none;}
 
 .table .td-actions .btn {
   opacity: 0.36;

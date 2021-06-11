@@ -31,7 +31,7 @@ export const actions = {
         id: values.id,
         fullname: values.fullname,
         token: values.token,
-        roles: values.role
+        role: values.role
       },
       loggedIn: true,
       initiated: false

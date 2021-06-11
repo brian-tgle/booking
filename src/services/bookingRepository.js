@@ -11,7 +11,7 @@ const BookingRepository = {
 
   create: (payload) => Repository.post(url, payload),
 
-  update: (bookingId, payload) => Repository.put(`${url}/${bookingId}`, payload),
+  update: (bookingId, action, payload) => Repository.put(`${url}/${action}/${bookingId}`, payload),
 
   cancel: (bookingId) => Repository.delete(`${url}/${bookingId}`)
 };
