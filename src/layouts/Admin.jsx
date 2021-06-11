@@ -1,17 +1,23 @@
-import React from 'react';
-import { useLocation, Route, Switch } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  useLocation, Route, Switch, useHistory
+} from 'react-router-dom';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import Footer from 'components/Footer/Footer';
 import Sidebar from 'components/Sidebar/Sidebar';
 import routes from 'routes';
 import sidebarImage from 'assets/img/sidebar-5.jpg';
+import useAuthentication from 'stores/authentication/authentication';
+import { ROUTES } from 'common/constants';
 
 function Admin() {
-  const [image] = React.useState(sidebarImage);
-  const [color] = React.useState('black');
-  const [hasImage] = React.useState(true);
+  const [image] = useState(sidebarImage);
+  const [color] = useState('black');
+  const [hasImage] = useState(true);
   const location = useLocation();
-  const mainPanel = React.useRef(null);
+  const mainPanel = useRef(null);
+  const [authentication] = useAuthentication();
+  const history = useHistory();
   const getRoutes = (routeList) => routeList.map((prop) => {
     if (prop.layout === '/admin') {
       return (
@@ -24,7 +30,8 @@ function Admin() {
     }
     return null;
   });
-  React.useEffect(() => {
+
+  useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainPanel.current.scrollTop = 0;
@@ -37,6 +44,13 @@ function Admin() {
       element.parentNode.removeChild(element);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (!authentication.loggedIn) {
+      history.replace(ROUTES.LOGIN);
+    }
+  }, [authentication]);
+
   return (
     <>
       <div className="wrapper">
