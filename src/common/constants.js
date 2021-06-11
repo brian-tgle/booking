@@ -22,5 +22,5 @@ export const ACTION_TYPES = {
   CREATE: 'CREATE',
   APPROVE: 'APPROVE',
   REJECT: 'REJECT',
-  ERROR: 'ERROR'
+  CANCEL: 'CANCEL'
 };

@@ -47,8 +47,9 @@ const CreateBookingForm = () => {
         proposedDateOptions
       };
       BookingRepository.create(payload).then(() => {
-        bookingActions.setRefresh(true);
         bookingActions.setShowModal(false);
+        bookingActions.setBookingData({});
+        bookingActions.setRefresh(true);
       }).catch(() => {
         setError(true);
       });

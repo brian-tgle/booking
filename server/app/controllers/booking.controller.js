@@ -139,7 +139,8 @@ bookingController.get('/', authorizeValidation, (req, res) => {
       model: "user"
     }
   ];
-  Booking.paginate(condition, { offset, limit, populate }).then(data => {
+  const sort = { 'updatedAt': -1 }
+  Booking.paginate(condition, { offset, limit, populate, sort }).then(data => {
     res.status(200).send({
       totalItems: data.totalDocs,
       data: data.docs,

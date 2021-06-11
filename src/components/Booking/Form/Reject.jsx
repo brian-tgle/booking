@@ -24,9 +24,9 @@ const RejectBookingForm = ({ bookingId }) => {
     },
     onSubmit: async (data) => {
       BookingRepository.update(bookingId, STATUS.REJECTED, data).then(() => {
-        bookingActions.setRefresh(true);
         bookingActions.setShowModal(false);
         bookingActions.setBookingData({});
+        bookingActions.setRefresh(true);
       }).catch(() => {
         setError(true);
       });
@@ -70,7 +70,7 @@ const RejectBookingForm = ({ bookingId }) => {
           className="btn-fill"
           size="sm"
           type="submit"
-          variant="primary"
+          variant="danger"
         >
           Reject Booking
         </Button>
