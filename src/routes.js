@@ -6,14 +6,16 @@ const dashboardRoutes = [
     name: 'Dashboard',
     icon: 'nc-icon nc-chart-pie-35',
     component: lazy(() => import('views/Dashboard')),
-    layout: '/admin'
+    layout: '/admin',
+    needAdminPermission: false
   },
   {
     path: '/type-of-event',
     name: 'Type of Event',
     icon: 'nc-icon nc-bullet-list-67',
     component: lazy(() => import('views/TypeOfEvent')),
-    layout: '/admin'
+    layout: '/admin',
+    needAdminPermission: true
   }
 ];
 

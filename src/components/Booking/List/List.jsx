@@ -105,7 +105,7 @@ const BookingList = () => {
                 <TableHead />
                 <tbody>
                   {bookingList?.map((booking, index) => (
-                    <BookingTableRow booking={booking} index={index} />
+                    <BookingTableRow key={booking.id} booking={booking} index={index} />
                   ))}
                 </tbody>
               </Table>

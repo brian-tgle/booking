@@ -2,11 +2,33 @@ import React from 'react';
 import { useLocation, NavLink, Link } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import Logo from 'assets/img/reactlogo.png';
-import { ROUTES } from 'common/constants';
+import { ROUTES, USER_ROLES } from 'common/constants';
+import useAuthentication from 'stores/authentication/authentication';
 
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
+  const [authentication] = useAuthentication();
   const activeRoute = (routeName) => (location.pathname.indexOf(routeName) > -1 ? 'active' : '');
+  const renderMenuItem = (prop) => (
+    <li
+      className={
+        prop.upgrade
+          ? 'active active-pro'
+          : activeRoute(prop.layout + prop.path)
+      }
+      key={prop.path}
+    >
+      <NavLink
+        to={prop.layout + prop.path}
+        className="nav-link"
+        activeClassName="active"
+      >
+        <i className={prop.icon} />
+        <p>{prop.name}</p>
+      </NavLink>
+    </li>
+  );
+
   return (
     <div className="sidebar" data-image={image} data-color={color}>
       <div
@@ -35,25 +57,13 @@ function Sidebar({ color, image, routes }) {
         <Nav>
           {routes.map((prop) => {
             if (!prop.redirect) {
-              return (
-                <li
-                  className={
-                    prop.upgrade
-                      ? 'active active-pro'
-                      : activeRoute(prop.layout + prop.path)
-                  }
-                  key={prop.path}
-                >
-                  <NavLink
-                    to={prop.layout + prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                  >
-                    <i className={prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
+              if (!prop.needAdminPermission) {
+                return renderMenuItem(prop);
+              }
+              if (authentication.user?.role === USER_ROLES.ADMIN) {
+                return renderMenuItem(prop);
+              }
+              return null;
             }
             return null;
           })}
