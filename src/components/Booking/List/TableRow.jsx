@@ -6,7 +6,7 @@ import Status from '../Status/Status';
 import styles from '../Booking.module.scss';
 
 const BookingTableRow = ({ booking, index }) => (
-  <tr key={booking?.id}>
+  <tr>
     <td className={styles.index}>{index + 1}</td>
     <td className={styles.eventCategory}>
       <Badge variant="info">{booking?.eventCategory?.name}</Badge>

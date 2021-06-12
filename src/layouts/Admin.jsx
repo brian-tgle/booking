@@ -6,9 +6,9 @@ import AdminNavbar from 'components/Navbars/AdminNavbar';
 import Footer from 'components/Footer/Footer';
 import Sidebar from 'components/Sidebar/Sidebar';
 import routes from 'routes';
-import sidebarImage from 'assets/img/sidebar-5.jpg';
 import useAuthentication from 'stores/authentication/authentication';
-import { ROUTES } from 'common/constants';
+import { ROUTES, USER_ROLES } from 'common/constants';
+import sidebarImage from 'assets/img/sidebar-5.jpg';
 
 function Admin() {
   const [image] = useState(sidebarImage);
@@ -18,15 +18,22 @@ function Admin() {
   const mainPanel = useRef(null);
   const [authentication] = useAuthentication();
   const history = useHistory();
+  const renderRoute = (prop) => (
+    <Route
+      path={prop.layout + prop.path}
+      render={(props) => <prop.component {...props} />}
+      key={prop.path}
+    />
+  );
   const getRoutes = (routeList) => routeList.map((prop) => {
     if (prop.layout === '/admin') {
-      return (
-        <Route
-          path={prop.layout + prop.path}
-          render={(props) => <prop.component {...props} />}
-          key={prop.path}
-        />
-      );
+      if (prop.needAdminPermission) {
+        if (authentication.user?.role === USER_ROLES.ADMIN) {
+          return renderRoute(prop);
+        }
+        return null;
+      }
+      return renderRoute(prop);
     }
     return null;
   });
