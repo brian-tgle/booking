@@ -35,7 +35,7 @@ $ cd booking
 ```bash
 $ cd server
 $ npm install
-$ node index
+$ npm start
 ```
 Server live on: http://localhost:5000/
 
