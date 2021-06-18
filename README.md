@@ -29,13 +29,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ```bash
 $ git clone https://github.com/brian-tgle/booking.git
-$ cd tinder-clone
+$ cd booking
 ```
 ### Start server
 ```bash
 $ cd server
 $ npm install
-$ node server
+$ node index
 ```
 Server live on: http://localhost:5000/
 
