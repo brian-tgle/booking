@@ -3,7 +3,7 @@ import databases from 'cache';
 import { ROUTES, ERROR_CODE } from 'common/constants';
 import { storeKey } from 'stores/authentication/authentication';
 
-const baseURL = 'http://localhost:5000/api/';
+const baseURL = 'https://frozen-river-71286.herokuapp.com/api/';
 const headers = {
   'Content-Type': 'application/json'
 };
