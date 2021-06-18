@@ -32,6 +32,7 @@
 			"never"
 		],
 		"import/no-cycle": "off",
-		"jsx-a11y/label-has-associated-control": "off"
+		"jsx-a11y/label-has-associated-control": "off",
+		"linebreak-style": 0
 	}
 }
